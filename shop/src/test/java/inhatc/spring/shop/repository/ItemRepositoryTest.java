@@ -1,5 +1,6 @@
 package inhatc.spring.shop.repository;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import inhatc.spring.shop.constant.ItemSellStatus;
 import inhatc.spring.shop.entity.Item;
@@ -12,6 +13,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.List;
 
@@ -33,21 +37,21 @@ class ItemRepositoryTest {
     }
 
 
-    @BeforeEach
-    public void init() {
-        for (int i = 1; i < 11; i++) {
-            Item item = Item.builder()
-                    .itemNm("테스트 상품" + i)
-                    .price(10000 + i)
-                    .stockNumber(100 + i)
-                    .itemDetail("테스트 상품 상세 설명" + i)
-                    .itemSellStatus(ItemSellStatus.SELL)
-                    .build();
-
-            itemRepository.save(item);
-
-        }
-    }
+//    @BeforeEach
+//    public void init() {
+//        for (int i = 1; i < 11; i++) {
+//            Item item = Item.builder()
+//                    .itemNm("테스트 상품" + i)
+//                    .price(10000 + i)
+//                    .stockNumber(100 + i)
+//                    .itemDetail("테스트 상품 상세 설명" + i)
+//                    .itemSellStatus(ItemSellStatus.SELL)
+//                    .build();
+//
+//            itemRepository.save(item);
+//
+//        }
+//    }
 
     /*
     @Test
@@ -137,6 +141,62 @@ class ItemRepositoryTest {
                 forEach((item -> {
                     System.out.println("item = " + item);
                 }));
+
+    }
+
+    public void creationItem(){
+        for (int i = 1; i < 5; i++) {
+            Item item = Item.builder()
+                    .itemNm("테스트 상품" + i)
+                    .price(10000 + i)
+                    .stockNumber(100 + i)
+                    .itemDetail("테스트 상품 상세 설명")
+                    .itemSellStatus(ItemSellStatus.SELL)
+                    .build();
+            itemRepository.save(item);
+        }
+
+        for (int i = 5; i < 11; i++) {
+            Item item = Item.builder()
+                    .itemNm("테스트 상품" + i)
+                    .price(10000 + i)
+                    .stockNumber(100 + i)
+                    .itemDetail("테스트 상품 상세 설명")
+                    .itemSellStatus(ItemSellStatus.SOLD_OUT)
+                    .build();
+            itemRepository.save(item);
+        }
+
+    }
+
+
+    @Test
+    @DisplayName("QueryDSL 테스트")
+    public void queryDslTest2() {
+        creationItem();
+
+        BooleanBuilder builder = new BooleanBuilder();
+
+        String itemDetail = "테스트";
+        int price = 10004;
+        String itemSellStatus = "SELL";
+
+        QItem qItem = item;
+
+        builder.and(qItem.itemDetail.like("%" + itemDetail + "%"));
+        builder.and(qItem.price.goe(price));
+
+        if(StringUtils.equals( itemSellStatus, ItemSellStatus.SELL )){
+            builder.and(qItem.itemSellStatus.eq(ItemSellStatus.SELL));
+        }
+
+        Pageable pageable = Pageable.ofSize(5).withPage(0);
+
+        Page<Item> itemPage =  itemRepository.findAll(builder, pageable);
+        List<Item> itemList = itemPage.getContent();
+        itemList.stream().forEach(item -> {
+            System.out.println("item = " + item);
+        });
 
     }
 

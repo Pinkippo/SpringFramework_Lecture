@@ -22,6 +22,14 @@ spring: # 스프링 설정
     password: 1234567890
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  thymeleaf:
+    cache: false
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+        enabled: true
+
 
 logging:
   level:
