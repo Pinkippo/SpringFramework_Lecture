@@ -10,6 +10,12 @@ import java.awt.*;
 @RestController
 public class HelloController {
 
+    @GetMapping("/")
+    public String index() {
+
+        return "index";
+    }
+
     @GetMapping("/hello") // http://localhost/hello
     public String hello() {
         return "hello";

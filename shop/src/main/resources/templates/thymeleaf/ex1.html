@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>ThymeLeaf EX1 입니다</title>
+</head>
+<body>
+<h1>스프링 부트</h1>
+<div>
+    상품명 : <span th:text="${itemDto.itemNm}"></span>
+</div>
+<div>
+    상품가격 : <span th:text="${itemDto.price}"></span>
+</div>
+<div>
+    상품수량 : <span th:text="${itemDto.stockNumber}"></span>
+</div>
+<div>
+    상품상태 : <span th:text="${itemDto.itemSellStatus}"></span>
+</div>
+</body>
+</html>
