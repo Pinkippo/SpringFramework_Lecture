@@ -6,7 +6,7 @@ spring: # 스프링 설정
     name: spring-shop
   jpa: # JPA 설정
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy # 카멜케이스를 언더스코어로 변환
     show-sql: true
@@ -15,6 +15,7 @@ spring: # 스프링 설정
     properties:
       hibernate:
         format_sql: true # SQL 예쁘게 출력
+
 
   datasource: # 데이터베이스 연결 설정
     url: jdbc:mysql://localhost:3306/practice?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
@@ -29,6 +30,10 @@ spring: # 스프링 설정
       enabled: true
     livereload:
         enabled: true
+  security:
+    user:
+      name: test@test.com
+      password: 1234
 
 
 logging:
