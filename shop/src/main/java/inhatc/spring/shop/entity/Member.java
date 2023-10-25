@@ -41,7 +41,7 @@ public class Member {
                 .role(Role.USER)
                 .build();
 
-        memberFormDto.setPassword(passwordEncoder.encode(memberFormDto.getPassword()));
+        member.setPassword(passwordEncoder.encode(memberFormDto.getPassword()));
 
         return member;
     }
