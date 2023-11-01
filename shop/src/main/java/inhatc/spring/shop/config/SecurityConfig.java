@@ -25,12 +25,13 @@ public class SecurityConfig {
         http.authorizeHttpRequests(request -> request
                 .requestMatchers("/css/**", "/images/**", "/js/**").permitAll()
                 .requestMatchers("/", "/member/**").permitAll()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated());
 
         http.exceptionHandling(exception -> exception
                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint()));
 
-        
+
         return http.build();
     }
 
